@@ -1,4 +1,3 @@
-
 ArrayList<Pipe> pipes = new ArrayList<Pipe>();
 
 Flapper flapper;
@@ -55,6 +54,9 @@ void draw() {
     pipes.get(i).drawPipe();
     if (pipes.get(i).detectColision(flapper.position, 360 + 16)) {
        print ("game over"); 
+    }
+    if(pipes.get(i).rect1[0] < -200){
+       pipes.remove(i); 
     }
   }
   
