@@ -1,40 +1,45 @@
 class Flapper {
   
-  float position;
+  float yPos;
+  float xPos;
   float velocity;
   boolean alive;
   
   float frameTime;
   
   float gravity = 10;
-  float fForce = -50;
+  float fForce = -70;
+  
+  int i;
   
   Flapper(){
-    position = 360;
+    yPos = height / 2;
+    xPos = 150;
     velocity = 0;
     alive = true;
-    frameTime = 0.03;
-    
+    frameTime = 0.1;  
   }
   
   void updatePosition ( boolean flaping )
   {
+   
     if(flaping){
        velocity += fForce;
     }
     else {
       //print("velocity " + velocity + "\n");
-      velocity += 2;//gravity * frameTime;
+      velocity += gravity * frameTime;
     }
-    position += velocity * frameTime;
+    yPos += velocity * frameTime;
     //print("position " +position + "\n"); 
   }
   
   void drawFlap(){
+    
     pushMatrix();
-    translate( 0, this.position);
-    fill(200,140,140,200);
-    ellipse(360,0,32,32); 
+    translate( this.xPos, this.yPos);
+    fill(255 ,255,255,240);
+    ellipse(0,0,32,32); 
     popMatrix();
     //print (flapping + ("\n"));
   
