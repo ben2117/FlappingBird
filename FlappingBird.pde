@@ -2,84 +2,75 @@ ArrayList<Pipe> pipes = new ArrayList<Pipe>();
 
 Flapper flapper;
 boolean flapping;
+boolean playing;
 int birdCount = 0;
 int pipeCount = 0;
-Walker w;
-
-int r;
-int g;
-int b;
-
 
 Fractal fractal;
 
 void setup() {
   size(800, 600);
+  frameRate(60);
   
   flapper = new Flapper();
   pipes.add(new Pipe());
-  w = new Walker();
-  fractal = new Fractal();
+  flapping = false;
+  playing = true;
   
-  r=0;
-  g=0;
-  b=0;
+  fractal = new Fractal();
 }
 
-void draw() {
+void draw() { 
+
+  background(254,144,100);
   
-  r+= 1;
-  g+= 2;
-  b+= 3;
+  fractal.drawFractal(0,height/2, 700, 0, 0, 0);
   
-  if (r == 255)
-    r = 0;
-  if (g == 255)
-    g = 0;
-  if (b == 255)
-    b = 0;
-  
-  background(200);
-  
-  w.step();
-  w.render();
- 
-  fractal.drawFractal(width/2,height/2, 500, r, g, b);
-  
-  flapper.updatePosition(flapping);
-  flapper.drawFlap();
-  
-  for(int i = 0; i < pipes.size(); i++){
-    pipes.get(i).update();
-    pipes.get(i).drawPipe();
-    if (pipes.get(i).detectColision(flapper.position, 360 + 16)) {
-       print ("game over"); 
-    }
-    if(pipes.get(i).rect1[0] < -200){
-       pipes.remove(i); 
-    }
-  }
-  
-  
-  
-  if(birdCount > 1){
+  // for flapper
+  if (flapping) {
+    flapper.updatePosition(true);
     flapping = false;
   }
-  birdCount++;
+  else {
+     flapper.updatePosition(false); 
+  }  
+  flapper.drawFlap();
   
-  if(pipeCount > 200){
-    pipes.add(new Pipe());
-    pipeCount = 0;
+  
+  // for pipes
+  if (playing) {
+    for(int i = 0; i < pipes.size(); i++){
+      pipes.get(i).update();
+      pipes.get(i).drawPipe();
+      if (pipes.get(i).detectColision(flapper.xPos, flapper.yPos)) {
+         playing = false; 
+      }
+      if(pipes.get(i).rect1[0] < -200){
+         pipes.remove(i); 
+      }
+      //print ("\npipePos = " + pipes.get(i).rect1[0]); 
+    }
+    if(pipeCount > 300){
+      pipes.add(new Pipe());
+      pipeCount = 0;
+    }
+    pipeCount++;
   }
-  pipeCount++;
-}
-
-void keyPressed () {
- 
- if (key == 32) {
-   birdCount = 0;
-   flapping = true;
- }
   
+  if (!playing) {
+     textSize(64);
+     textAlign(CENTER);
+     fill(255);
+     text("Game Over", width/2, height/3); 
+  }
+  print ("\n");
+
 }
 
+// input
+void keyReleased() {
+   flapping = true; 
+}
+void mousePressed() {
+   flapping = true; 
+}
