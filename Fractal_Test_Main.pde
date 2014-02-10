@@ -1,4 +1,3 @@
-
 Trees tree;
 boolean drawTree;
 
