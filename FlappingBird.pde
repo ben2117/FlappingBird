@@ -5,6 +5,7 @@ boolean flapping;
 boolean playing;
 int birdCount = 0;
 int pipeCount = 0;
+int score = 0;
 
 Fractal fractal;
 
@@ -18,6 +19,9 @@ void setup() {
   playing = true;
   
   fractal = new Fractal();
+  textSize(28);
+  textAlign(CENTER);
+  fill(255);
 }
 
 void draw() { 
@@ -25,7 +29,7 @@ void draw() {
   background(254,144,100);
   
   fractal.drawFractal(0,height/2, 700, 0, 0, 0);
-  
+  //WHAT HAPPEND TO ALL THE PRETTY COLORS
   // for flapper
   if (flapping) {
     flapper.updatePosition(true);
@@ -45,12 +49,13 @@ void draw() {
       if (pipes.get(i).detectColision(flapper.xPos, flapper.yPos)) {
          playing = false; 
       }
-      if(pipes.get(i).rect1[0] < -200){
+      if(pipes.get(i).rect1[0] < -100){
          pipes.remove(i); 
+         score++;
       }
       //print ("\npipePos = " + pipes.get(i).rect1[0]); 
     }
-    if(pipeCount > 300){
+    if(pipeCount > 250){
       pipes.add(new Pipe());
       pipeCount = 0;
     }
@@ -59,11 +64,10 @@ void draw() {
   
   if (!playing) {
      textSize(64);
-     textAlign(CENTER);
-     fill(255);
      text("Game Over", width/2, height/3); 
   }
-  print ("\n");
+  
+  text("Score: "+score, width/2, height/1.1); 
 
 }
 
