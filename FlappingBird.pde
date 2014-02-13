@@ -2,11 +2,10 @@ ArrayList<Pipe> pipes = new ArrayList<Pipe>();
 
 Flapper flapper;
 boolean flapping;
-boolean playing;
-int birdCount = 0;
+
 int pipeCount = 0;
 int score = 0;
-
+Trees tree = new Trees();
 Fractal fractal;
 
 void setup() {
@@ -16,16 +15,14 @@ void setup() {
   flapper = new Flapper();
   pipes.add(new Pipe());
   flapping = false;
-  playing = true;
   
   fractal = new Fractal();
   textSize(28);
   textAlign(CENTER);
-  fill(255);
 }
 
 void draw() { 
-
+  println(frameRate);
   background(254,144,100);
   
   fractal.drawFractal(0,height/2, 700, 0, 0, 0);
@@ -42,12 +39,12 @@ void draw() {
   
   
   // for pipes
-  if (playing) {
+  if (flapper.alive) {
     for(int i = 0; i < pipes.size(); i++){
       pipes.get(i).update();
       pipes.get(i).drawPipe();
       if (pipes.get(i).detectColision(flapper.xPos, flapper.yPos)) {
-         playing = false; 
+         flapper.alive = false; 
       }
       if(pipes.get(i).rect1[0] < -100){
          pipes.remove(i); 
@@ -62,19 +59,21 @@ void draw() {
     pipeCount++;
   }
   
-  if (!playing) {
+  if (!flapper.alive) {
      textSize(64);
      text("Game Over", width/2, height/3); 
   }
   
+  
+  fill(255);
   text("Score: "+score, width/2, height/1.1); 
 
 }
 
 // input
 void keyReleased() {
-   flapping = true; 
+  if (flapper.alive) flapping = true; 
 }
 void mousePressed() {
-   flapping = true; 
+   if (flapper.alive) flapping = true; 
 }
