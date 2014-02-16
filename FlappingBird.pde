@@ -3,6 +3,8 @@ ArrayList<Pipe> pipes = new ArrayList<Pipe>();
 Flapper flapper;
 boolean flapping;
 
+Animation ani;
+
 float pipeTime = 0;
 int score = 0;
 Trees tree = new Trees();
@@ -11,6 +13,8 @@ Fractal fractal;
 void setup() {
   size(800, 600);
   frameRate(60);
+  
+  ani = new Animation ();
   
   flapper = new Flapper();
   pipes.add(new Pipe());
@@ -26,7 +30,9 @@ void draw() {
   int m = millis();
   background(254,144,100);
   
-  fractal.drawFractal(0,height/2, 700, 0, 0, 0);
+  ani.drawAnimation(flapper.xPos, flapper.yPos);
+  
+  //fractal.drawFractal(0,height/2, 700, 0, 0, 0);
   //WHAT HAPPEND TO ALL THE PRETTY COLORS
   // for flapper
   if (flapping) {
@@ -55,7 +61,7 @@ void draw() {
       }
       //print ("\npipePos = " + pipes.get(i).rect1[0]); 
     }
-    if(m > 6000 + pipeTime){
+    if(m > 3000 + pipeTime){
       pipes.add(new Pipe());
       pipeTime = m;
     }

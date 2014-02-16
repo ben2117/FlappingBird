@@ -35,8 +35,7 @@ class Flapper {
     
     pushMatrix();
     translate( this.xPos, this.yPos);
-    fill(255 ,255,255,240);
-    ellipse(0,0,32,32); 
+    //drawAnimation(xPos, yPos);
     popMatrix();
     //print (flapping + ("\n"));
   
