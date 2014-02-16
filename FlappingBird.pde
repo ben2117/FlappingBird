@@ -3,7 +3,7 @@ ArrayList<Pipe> pipes = new ArrayList<Pipe>();
 Flapper flapper;
 boolean flapping;
 
-int pipeCount = 0;
+float pipeTime = 0;
 int score = 0;
 Trees tree = new Trees();
 Fractal fractal;
@@ -23,6 +23,7 @@ void setup() {
 
 void draw() { 
   println(frameRate);
+  int m = millis();
   background(254,144,100);
   
   fractal.drawFractal(0,height/2, 700, 0, 0, 0);
@@ -48,15 +49,17 @@ void draw() {
       }
       if(pipes.get(i).rect1[0] < -100){
          pipes.remove(i); 
-         score++;
+      }
+      if (pipes.get(i).updateScore(flapper.xPos)) {
+         score++; 
       }
       //print ("\npipePos = " + pipes.get(i).rect1[0]); 
     }
-    if(pipeCount > 250){
+    if(m > 6000 + pipeTime){
       pipes.add(new Pipe());
-      pipeCount = 0;
+      pipeTime = m;
     }
-    pipeCount++;
+    
   }
   
   if (!flapper.alive) {
