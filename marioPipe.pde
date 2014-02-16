@@ -8,11 +8,13 @@ class Pipe{
   int pipeWidth;
   float pipeHeight;
   
+  boolean passed;
+  
   Pipe(){
-    speed = 1.1;
-    pipeDist = 200;
+    speed = 120;
+    pipeDist = height / 4;
     pipeHeight = random (0, height - pipeDist);
-    pipeWidth = 100;
+    pipeWidth = height / 7;
     
     this.rect1[0] = width;
     this.rect1[1] = 0;
@@ -23,11 +25,13 @@ class Pipe{
     this.rect2[1] = pipeHeight + pipeDist;  
     this.rect2[2] = pipeWidth;
     this.rect2[3] = height - (pipeHeight - pipeDist);
+    
+    passed = false;
   }
   
   void update(){
-    rect1[0] -= speed;
-    rect2[0] -= speed;
+    rect1[0] -= speed * (1 / frameRate);
+    rect2[0] -= speed * (1 / frameRate);
   }
   
   void drawPipe(){
@@ -55,7 +59,15 @@ class Pipe{
        }
        else return false;
    }
-   else return false;    
+   else return false;   
+  }
+  
+  boolean updateScore (float xPos) {
+    if (rect1[0] < xPos - (pipeWidth / 2) && !passed) {
+      passed = true;
+      return true;
+    }
+    else return false;
   }
 }
 
