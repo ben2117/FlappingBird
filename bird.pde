@@ -5,10 +5,8 @@ class Flapper {
   float velocity;
   boolean alive;
   
-  float frameTime;
-  
-  float gravity = 10;
-  float fForce = -70;
+  float gravity = 200;
+  float fForce = -300;
   
   int i;
   
@@ -17,7 +15,6 @@ class Flapper {
     xPos = 150;
     velocity = 0;
     alive = true;
-    frameTime = 0.1;  
   }
   
   void updatePosition ( boolean flaping )
@@ -28,9 +25,9 @@ class Flapper {
     }
     else {
       //print("velocity " + velocity + "\n");
-      velocity += gravity * frameTime;
+      velocity += gravity * (1 / frameRate);
     }
-    yPos += velocity * frameTime;
+    yPos += velocity * (1 / frameRate);
     //print("position " +position + "\n"); 
   }
   
